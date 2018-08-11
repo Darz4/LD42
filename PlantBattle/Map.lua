@@ -22,7 +22,7 @@ end
 function Map:draw()
     for _,tileRow in pairs(self.tiles) do
         for _,tile in pairs(tileRow) do
-            tile:draw(self.x, self.y)
+            tile:draw()
         end
     end
 end

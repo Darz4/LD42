@@ -1,15 +1,18 @@
 
 require "Map"
+require "Camera"
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Globals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 map = nil
+camera = nil
 scrollSpeed = 500
+
 Colors =
 {
-    blue = {r = 0.4, g = 0.8, b = 1},
+    blue  = {r = 0.40, g = 0.80, b = 1.00},
     brown = {r = 0.83, g = 0.61, b = 0.14},
 }
 
@@ -19,23 +22,12 @@ Colors =
 
 function love.load()
     math.randomseed(os.time())
+    camera = Camera()
     map = Map()
 end
 
 function love.update(dt)
-    if love.keyboard.isDown("up") then
-        map.y = map.y + scrollSpeed * dt
-    end
-    if love.keyboard.isDown("down") then
-        map.y = map.y - scrollSpeed * dt
-    end
-    if love.keyboard.isDown("left") then
-        map.x = map.x + scrollSpeed * dt
-    end
-    if love.keyboard.isDown("right") then
-        map.x = map.x - scrollSpeed * dt
-    end
-
+    camera:update(dt)
     map:update(dt)
 end
 
