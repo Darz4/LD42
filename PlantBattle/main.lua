@@ -1,13 +1,17 @@
 
 require "Map"
 require "Camera"
+require "TilePicker"
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Globals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
+-- Objects
 map = nil
 camera = nil
+picker = nil
+
 scrollSpeed = 500
 
 Colors =
@@ -24,21 +28,18 @@ function love.load()
     math.randomseed(os.time())
     camera = Camera()
     map = Map()
+    picker = TilePicker()
 end
 
 function love.update(dt)
     camera:update(dt)
     map:update(dt)
+    picker:update(dt)
 end
 
 function love.draw()
     map:draw()
-    
-    local mouseX, mouseY = love.mouse.getPosition()
-    local x = math.floor(mouseX / Tile.size)
-    local y = math.floor(mouseY / Tile.size)
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle("line", x * Tile.size, y * Tile.size, Tile.size, Tile.size)
+    picker:draw()
 end
 
 
