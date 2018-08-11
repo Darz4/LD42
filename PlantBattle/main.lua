@@ -12,7 +12,7 @@ map = nil
 camera = nil
 picker = nil
 
-scrollSpeed = 500
+scrollSpeed = 300
 
 Colors =
 {
@@ -43,6 +43,9 @@ function love.load()
         print('loading ' .. fileName)
         sprites[fileName] = love.graphics.newImage(spritesDir .. '/' .. fileName)
     end
+
+    camera.x = (map.width * Tile.size / 2) - (love.graphics.getWidth() / 2)
+    camera.y = (map.height * Tile.size / 2) - (love.graphics.getHeight() / 2)
 end
 
 function love.update(dt)

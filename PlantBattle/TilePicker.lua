@@ -11,8 +11,6 @@ function TilePicker:update(dt)
     local tileCol = math.floor((mouseX + camera.x) / Tile.size) + 1
     self.currentTile = nil
 
-    --print('mouse=(' .. mouseX .. ', ' .. mouseY .. ')  Row=' .. tileRow .. '  Col=' .. tileCol)
-
     if tileRow > 0 and tileRow <= map.height and tileCol > 0 and tileCol <= map.width then
         self.currentTile = map.tiles[tileRow][tileCol]
     end

@@ -6,8 +6,8 @@ Map = GameObject:extend()
 function Map:new()
     self.x = 0
     self.y = 0
-    self.height = 15
-    self.width = 20
+    self.height = 50
+    self.width = 100
     self.tiles = {}
     self:generate()
 end
@@ -36,7 +36,9 @@ function Map:generate()
     for i = 0, groundRow - 1 do
         local row = {}
         for j = 0, self.width - 1 do
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, nil, Colors.blue))
+            local spriteNameSuffix = groundRow - i
+            if spriteNameSuffix > 6 then spriteNameSuffix = 6 end
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_sky' .. spriteNameSuffix, Colors.blue))
         end
         table.insert(self.tiles, row)
     end
