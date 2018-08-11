@@ -24,8 +24,8 @@ spritesDir = 'graphics/tiles'
 sprites = {}
 spriteGroups =
 {
-    ground1 = { 'Tile_herbground_1', 'Tile_herbground_3' },
-    ground2 = { 'Tile_herbground_2', 'Tile_herbground_4' }
+    floor1 = { 'Tile_herbground_1', 'Tile_herbground_3' },
+    floor2 = { 'Tile_herbground_2', 'Tile_herbground_4' },
 }
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

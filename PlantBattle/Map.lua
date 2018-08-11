@@ -44,9 +44,9 @@ function Map:generate()
     local row = {}
     for j = 0, self.width - 1 do
         if j % 2 == 0 then
-            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.ground1, Colors.blue))
+            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.floor1, Colors.blue))
         else
-            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.ground2, Colors.blue))
+            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.floor2, Colors.blue))
         end
     end
     table.insert(self.tiles, row)
@@ -54,7 +54,8 @@ function Map:generate()
     for i = groundRow + 1, self.height - 1 do
         local row = {}
         for j = 0, self.width - 1 do
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, nil, Colors.brown))
+            local spriteNameSuffix = (j % 2) + 1
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_ground_' .. spriteNameSuffix, Colors.brown))
         end
         table.insert(self.tiles, row)
     end
