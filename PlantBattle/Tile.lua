@@ -8,6 +8,7 @@ function Tile:new(x, y, color, image)
     self.y = y
     self.image = image
     self.color = color
+    self.pickingState = 0
 end
 
 function Tile:update(dt)

@@ -1,3 +1,4 @@
+require "Utils"
 Object = require "classic"
 GameObject = Object:extend()
 

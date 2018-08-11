@@ -21,5 +21,5 @@ function Camera:update(dt)
     end
 end
 
-function Camera:draw(camera)
+function Camera:draw()
 end

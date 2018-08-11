@@ -8,6 +8,7 @@ function Map:new()
     self.y = 0
     self.height = 15
     self.width = 20
+    self.tiles = {}
     self:generate()
 end
 
@@ -29,32 +30,22 @@ end
 
 function Map:generate()
     self.tiles = {}
+
     local groundRow = math.floor(self.height / 2) + 1
 
-    for i = 1, groundRow - 1 do
+    for i = 0, groundRow - 1 do
         local row = {}
-        for j = 1, self.width do
+        for j = 0, self.width do
             table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.blue))
         end
         table.insert(self.tiles, row)
     end
 
-    for i = groundRow, self.height do
+    for i = groundRow, self.height - 1 do
         local row = {}
-        for j = 1, self.width do
-            --table.insert(row, Tile(j * Tile.size, i * Tile.size, randomColor(0.2, 1)))
+        for j = 0, self.width do
             table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.brown))
         end
         table.insert(self.tiles, row)
     end
-end
-
-function randomColor(min, max)
-    if min == nil then min = 0 end
-    if max == nil then max = 1 end
-    return {
-        r = math.random(min, max),
-        g = math.random(min, max),
-        b = math.random(min, max),
-    }
 end
