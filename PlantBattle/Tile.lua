@@ -13,7 +13,7 @@ end
 function Tile:update(dt)
 end
 
-function Tile:draw()
+function Tile:draw(mapX, mapY)
     love.graphics.setColor(self.color.r, self.color.g, self.color.b)
-    love.graphics.rectangle("fill", self.x, self.y, self.size, self.size)
+    love.graphics.rectangle("fill", self.x + mapX, self.y + mapY, self.size, self.size)
 end
