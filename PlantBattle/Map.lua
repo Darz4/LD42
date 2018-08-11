@@ -36,7 +36,7 @@ function Map:generate()
     for i = 0, groundRow - 1 do
         local row = {}
         for j = 0, self.width - 1 do
-            local spriteNameSuffix = groundRow - i
+            local spriteNameSuffix = groundRow - 1 - i
             if spriteNameSuffix > 6 then spriteNameSuffix = 6 end
             table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_sky' .. spriteNameSuffix, Colors.blue))
         end
