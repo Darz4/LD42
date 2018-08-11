@@ -31,20 +31,30 @@ end
 function Map:generate()
     self.tiles = {}
 
-    local groundRow = math.floor(self.height / 2) + 1
+    local groundRow = math.floor(self.height / 2)
 
     for i = 0, groundRow - 1 do
         local row = {}
-        for j = 0, self.width do
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.blue))
+        for j = 0, self.width - 1 do
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, nil, Colors.blue))
         end
         table.insert(self.tiles, row)
     end
 
-    for i = groundRow, self.height - 1 do
+    local row = {}
+    for j = 0, self.width - 1 do
+        if j % 2 == 0 then
+            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.ground1, Colors.blue))
+        else
+            table.insert(row, Tile(j * Tile.size, groundRow * Tile.size, spriteGroups.ground2, Colors.blue))
+        end
+    end
+    table.insert(self.tiles, row)
+
+    for i = groundRow + 1, self.height - 1 do
         local row = {}
-        for j = 0, self.width do
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.brown))
+        for j = 0, self.width - 1 do
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, nil, Colors.brown))
         end
         table.insert(self.tiles, row)
     end

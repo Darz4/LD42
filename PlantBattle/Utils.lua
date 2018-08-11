@@ -1,5 +1,5 @@
 
-debugPrintEnabled = true
+debugPrintEnabled = false
 
 
 function _print(string)
