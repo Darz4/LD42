@@ -20,6 +20,14 @@ Colors =
     brown = {r = 0.83, g = 0.61, b = 0.14},
 }
 
+spritesDir = 'graphics/tiles'
+sprites = {}
+spriteGroups =
+{
+    floor1 = { 'Tile_herbground_1', 'Tile_herbground_3' },
+    floor2 = { 'Tile_herbground_2', 'Tile_herbground_4' },
+}
+
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Love Mouse/Keyboard Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
@@ -29,6 +37,12 @@ function love.load()
     camera = Camera()
     map = Map()
     picker = TilePicker()
+    
+    local fileNames = love.filesystem.getDirectoryItems(spritesDir)
+    for _, fileName in pairs(fileNames) do
+        print('loading ' .. fileName)
+        sprites[fileName] = love.graphics.newImage(spritesDir .. '/' .. fileName)
+    end
 end
 
 function love.update(dt)
