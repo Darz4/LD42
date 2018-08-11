@@ -1,12 +1,12 @@
 require "GameObject"
 Tile = GameObject:extend()
 
+Tile.size = 40
 
 function Tile:new(x, y, color, image)
     self.x = x
     self.y = y
     self.image = image
-    self.size = 40
     self.color = color
 end
 
@@ -15,5 +15,5 @@ end
 
 function Tile:draw(mapX, mapY)
     love.graphics.setColor(self.color.r, self.color.g, self.color.b)
-    love.graphics.rectangle("fill", self.x + mapX, self.y + mapY, self.size, self.size)
+    love.graphics.rectangle("fill", self.x + mapX, self.y + mapY, Tile.size, Tile.size)
 end

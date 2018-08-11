@@ -3,48 +3,51 @@ require "Tile"
 Map = GameObject:extend()
 
 
-scrollSpeed = 500
-
-
 function Map:new()
     self.x = 0
     self.y = 0
-    self.tiles =
-    {
-        Tile(10, 20, randomColor(0.2, 1)),
-        Tile(100, 200, randomColor(0.2, 1)),
-        Tile(150, 20, randomColor(0.2, 1)),
-        Tile(10, 150, randomColor(0.2, 1)),
-        Tile(300, 300, randomColor(0.2, 1)),
-    }
+    self.height = 15
+    self.width = 20
+    self:generate()
 end
 
 function Map:update(dt)
-
-    if love.keyboard.isDown("up") then
-        self.y = self.y + scrollSpeed * dt
-    end
-    if love.keyboard.isDown("down") then
-        self.y = self.y - scrollSpeed * dt
-    end
-    if love.keyboard.isDown("left") then
-        self.x = self.x + scrollSpeed * dt
-    end
-    if love.keyboard.isDown("right") then
-        self.x = self.x - scrollSpeed * dt
-    end
-
-    for _,v in pairs(self.tiles) do
-        v:update()
+    for _,tileRow in pairs(self.tiles) do
+        for _,tile in pairs(tileRow) do
+            tile:update()
+        end
     end
 end
 
 function Map:draw()
-    for _,v in pairs(self.tiles) do
-        v:draw(self.x, self.y)
+    for _,tileRow in pairs(self.tiles) do
+        for _,tile in pairs(tileRow) do
+            tile:draw(self.x, self.y)
+        end
     end
 end
 
+function Map:generate()
+    self.tiles = {}
+    local groundRow = math.floor(self.height / 2) + 1
+
+    for i = 1, groundRow - 1 do
+        local row = {}
+        for j = 1, self.width do
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.blue))
+        end
+        table.insert(self.tiles, row)
+    end
+
+    for i = groundRow, self.height do
+        local row = {}
+        for j = 1, self.width do
+            --table.insert(row, Tile(j * Tile.size, i * Tile.size, randomColor(0.2, 1)))
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, Colors.brown))
+        end
+        table.insert(self.tiles, row)
+    end
+end
 
 function randomColor(min, max)
     if min == nil then min = 0 end
