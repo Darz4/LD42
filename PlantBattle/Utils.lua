@@ -1,4 +1,6 @@
 
+require 'string'
+
 debugPrintEnabled = false
 
 
@@ -17,3 +19,7 @@ function randomColor(min, max)
         b = math.random(min, max),
     }
 end
+
+function startsWith(str, start)
+    return string.sub(str, 1, string.len(start)) == start
+ end
