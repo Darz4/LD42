@@ -12,7 +12,7 @@ map = nil
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function love.load()
-    Object = require "classic"
+    math.randomseed(os.time())
     map = Map()
 end
 
@@ -21,6 +21,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    map:draw()
 end
 
 
