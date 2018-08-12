@@ -23,3 +23,14 @@ end
 function startsWith(str, start)
     return string.sub(str, 1, string.len(start)) == start
  end
+
+ function getFlagsString(flags)
+    local result = ''
+    local chars = { 'L', 'U', 'R', 'D' }
+    for i = 1, #flags do
+        if flags[i] then
+            result = result .. chars[i]
+        end
+    end
+    return result
+end
