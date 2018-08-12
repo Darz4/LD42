@@ -49,11 +49,15 @@ function Map:load()
     end
 
     self:generateBackground()
+
+    for _,layer in pairs(self.layers) do
+        layer:load()
+    end
 end
 
 function Map:update(dt)
     for _,layer in pairs(self.layers) do
-        layer:update()
+        layer:update(dt)
     end
 end
 

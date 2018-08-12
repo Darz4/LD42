@@ -7,12 +7,17 @@ function Layer:new(width, height)
 end
 
 function Layer:load()
+    for _,tileRow in pairs(self.tiles) do
+        for _,tile in pairs(tileRow) do
+            tile:load()
+        end
+    end
 end
 
 function Layer:update(dt)
     for _,tileRow in pairs(self.tiles) do
         for _,tile in pairs(tileRow) do
-            tile:update()
+            tile:update(dt)
         end
     end
 end
