@@ -55,7 +55,6 @@ end
 
 function Layer:getTile(row, col)
     if row < 1 or row > self.height or col < 1 or col > self.width then
-        print('default')
         return Tile.default
     end
     return self.tiles[row][col]

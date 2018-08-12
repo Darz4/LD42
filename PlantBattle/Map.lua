@@ -2,27 +2,17 @@ require "GameObject"
 require "Tile"
 require "Layer"
 require "Plant"
+require "Globals"
 
 Map = GameObject:extend()
 
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Globals
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
-
-graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots' }
-sprites = {}
-spriteGroups =
-{
-    floor1 = { 'tiles/Tile_herbground_1', 'tiles/Tile_herbground_3' },
-    floor2 = { 'tiles/Tile_herbground_2', 'tiles/Tile_herbground_4' },
-}
-plant = nil
-
-
---[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Methods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
+
+
+graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots', 'UI/Buttons', 'UI/Names' }
 
 
 function Map:new()
@@ -49,7 +39,7 @@ function Map:load()
     end
 
     self:generateBackground()
-    self:generatePlant()
+    plant = Plant(self.floorRow, self.width / 2)
 
     for _,layer in pairs(self.layers) do
         layer:load()
@@ -77,12 +67,6 @@ end
 function Map:addLayer(layerName)
     self.layers[layerName] = Layer(layerName, self.width, self.height)
     return self.layers[layerName]
-end
-
-function Map:generatePlant()
-    local row = self.floorRow
-    local col = self.width / 2
-    plant = Plant(row, col)
 end
 
 function Map:generateBackground()

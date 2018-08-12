@@ -1,4 +1,10 @@
 require "GameObject"
+require "Globals"
+
+
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Globals
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 Tile = GameObject:extend()
 
@@ -9,12 +15,16 @@ TileTypes =
     floor = 2,
     ground = 3,
     plant = 4,
-    plantBase = 5,
+    seed = 5,
     root = 6,
 }
 
 Tile.size = 40
 
+
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Constructor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function Tile:new(layer, tileType, row, col, spriteNames, isAnimated)
     self.layer = layer
@@ -57,6 +67,11 @@ function Tile:new(layer, tileType, row, col, spriteNames, isAnimated)
     end
 end
 
+
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Events
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
+
 function Tile:load()
 end
 
@@ -86,14 +101,26 @@ function Tile:draw()
     end
 end
 
+
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
+
 function Tile:setFlag(index, value)
     if self.type == TileTypes.root then
         self.flags[index] = value
         local flagsKey = getFlagsKey(self.flags)
-        local flagsSpritesTab = flagsSprites[flagsKey]
 
-        if flagsSpritesTab and #flagsSpritesTab > 0 then
-            self.spriteNames = { flagsSpritesTab[math.random(1, #flagsSpritesTab)] .. '.png' }
+        if self == plant.baseRoot then
+            local seedSpritesTab = seedSprites[flagsKey]
+            if seedSpritesTab and #seedSpritesTab > 0 then
+                self.spriteNames = { seedSpritesTab[math.random(1, #seedSpritesTab)] .. '.png' }
+            end
+        elseif self.type == TileTypes.root then
+            local rootSpritesTab = rootSprites[flagsKey]
+            if rootSpritesTab and #rootSpritesTab > 0 then
+                self.spriteNames = { rootSpritesTab[math.random(1, #rootSpritesTab)] .. '.png' }
+            end
         end
     end
 end

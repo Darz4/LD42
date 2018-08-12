@@ -1,15 +1,6 @@
 
 require 'string'
 
-debugPrintEnabled = false
-
-
-function _print(string)
-    if debugPrintEnabled then
-        print(string)
-    end
-end
-
 function randomColor(min, max)
     if min == nil then min = 0 end
     if max == nil then max = 1 end
@@ -22,9 +13,23 @@ end
 
 function startsWith(str, start)
     return string.sub(str, 1, string.len(start)) == start
- end
+end
 
- function getFlagsKey(flags)
+function generateFlagsDict(spriteFlags)
+    local result = {}
+
+    for k,v in pairs(spriteFlags) do
+        local flagsKey = getFlagsKey(v)
+        if not result[flagsKey] then
+            result[flagsKey] = {}
+        end
+        table.insert(result[flagsKey], k)
+    end
+
+    return result
+end
+
+function getFlagsKey(flags)
     local result = ''
     local chars = { 'L', 'U', 'R', 'D' }
     for i = 1, #flags do
