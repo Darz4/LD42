@@ -29,8 +29,11 @@ function Plant:new(row, col)
     local plantBase = Tile(self.layer, TileTypes.plantBase, row, col, 'Plants/Plant_start_anim', true)
     
     for k,v in pairs(rootFlags) do
-        local flagsString = getFlagsString(v)
-        flagsSprites[flagsString] = k
+        local flagsKey = getFlagsKey(v)
+        if not flagsSprites[flagsKey] then
+            flagsSprites[flagsKey] = {}
+        end
+        table.insert(flagsSprites[flagsKey], k)
     end
 
     local test = Tile(self.layer, TileTypes.root, row + 1, col, 'Plants/Roots/Root_base_D')

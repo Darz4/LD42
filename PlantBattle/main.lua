@@ -64,14 +64,14 @@ function love.mousereleased(x, y, button, istouch, presses)
         if flags[i] then anyConnection = true end
     end
 
-    local flagsString = getFlagsString(flags)
+    local flagsKey = getFlagsKey(flags)
 
-    if flagsSprites[flagsString] then
+    if flagsSprites[flagsKey] then
         if flags[1] then neighbours[1]:setFlag(3, true) end
         if flags[2] then neighbours[2]:setFlag(4, true) end
         if flags[3] then neighbours[3]:setFlag(1, true) end
         if flags[4] then neighbours[4]:setFlag(2, true) end
-        local newTile = Tile(plantLayer, TileTypes.root, picker.row, picker.col, flagsSprites[flagsString])
+        local newTile = Tile(plantLayer, TileTypes.root, picker.row, picker.col, flagsSprites[flagsKey])
         newTile:load()
 
         for i = 1, #flags do

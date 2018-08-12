@@ -89,10 +89,11 @@ end
 function Tile:setFlag(index, value)
     if self.type == TileTypes.root then
         self.flags[index] = value
-        local flagsString = getFlagsString(self.flags)
+        local flagsKey = getFlagsKey(self.flags)
+        local flagsSpritesTab = flagsSprites[flagsKey]
 
-        if flagsString:len() > 0 then
-            self.spriteNames = { flagsSprites[flagsString] .. '.png' }
+        if flagsSpritesTab and #flagsSpritesTab > 0 then
+            self.spriteNames = { flagsSpritesTab[math.random(1, #flagsSpritesTab)] .. '.png' }
         end
     end
 end

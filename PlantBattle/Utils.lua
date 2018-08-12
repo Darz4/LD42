@@ -24,7 +24,7 @@ function startsWith(str, start)
     return string.sub(str, 1, string.len(start)) == start
  end
 
- function getFlagsString(flags)
+ function getFlagsKey(flags)
     local result = ''
     local chars = { 'L', 'U', 'R', 'D' }
     for i = 1, #flags do
