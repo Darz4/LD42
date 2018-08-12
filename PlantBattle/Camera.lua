@@ -7,7 +7,7 @@ function Camera:new()
 end
 
 function Camera:load()
-    self.x = (map.width * Tile.size / 2) - (love.graphics.getWidth() / 2)
+    self.x = (map.width * Tile.size / 2) - (love.graphics.getWidth() / 2) + (Tile.size / 2)
     self.y = (map.height * Tile.size / 2) - (love.graphics.getHeight() / 2)
 end
 

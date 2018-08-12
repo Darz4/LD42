@@ -18,28 +18,30 @@ end
 
 function Tile:load()
     if type(self.spriteNames) == 'table' then
-        self.spriteNames = { self.spriteNames[math.random(1, #self.spriteNames)] .. '.png' }
+        self.spriteNames = { self.spriteNames[math.random(1, #self.spriteNames)] }
     else
-        self.spriteNames = { self.spriteNames .. '.png' }
+        self.spriteNames = { self.spriteNames }
     end
 
     if self.isAnimated then
         local spriteNames = {}
         for spriteName, _ in pairs(sprites) do
+            print('checking ' .. spriteName .. ' / ' .. self.spriteNames[1])
             if startsWith(spriteName, self.spriteNames[1]) then
-                table.insert(spriteNames, spriteName .. '.png')
+                table.insert(spriteNames, spriteName)
             end
         end
         self.spriteNames = spriteNames
         self.isAnimated = #spriteNames > 1
-        print('CACA')
+    else
+        self.spriteNames[1] = self.spriteNames[1] .. '.png'
     end
 end
 
 function Tile:update(dt)
     if self.isAnimated then
-        self.currentFrame = self.currentFrame + 10 * dt
-        if self.currentFrame >= #self.spriteNames then
+        self.currentFrame = self.currentFrame + 2 * dt
+        if self.currentFrame >= #self.spriteNames + 1 then
             self.currentFrame = 1
         end
     end
