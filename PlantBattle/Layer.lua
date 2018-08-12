@@ -2,8 +2,9 @@ require "GameObject"
 Layer = GameObject:extend()
 
 
-function Layer:new(width, height)
+function Layer:new(name, width, height)
     self.tiles = {}
+    self.name = name
 end
 
 function Layer:load()

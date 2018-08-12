@@ -3,9 +3,12 @@ Tile = GameObject:extend()
 
 Tile.size = 40
 
-function Tile:new(x, y, spriteNames, isAnimated, color)
-    self.x = x
-    self.y = y
+function Tile:new(layer, row, col, spriteNames, isAnimated, color)
+    self.layer = layer
+    self.row = row
+    self.col = col
+    self.x = col * Tile.size
+    self.y = row * Tile.size
     self.color = color
     self.pickingState = 0
     self.isAnimated = isAnimated
@@ -29,6 +32,7 @@ function Tile:load()
         end
         self.spriteNames = spriteNames
         self.isAnimated = #spriteNames > 1
+        print('CACA')
     end
 end
 

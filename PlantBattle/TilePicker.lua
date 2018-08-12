@@ -15,7 +15,7 @@ function TilePicker:update(dt)
     self.currentTile = nil
 
     if tileRow > 0 and tileRow <= map.height and tileCol > 0 and tileCol <= map.width then
-        self.currentTile = map.layers[1].tiles[tileRow][tileCol]
+        self.currentTile = map.layers['background1'].tiles[tileRow][tileCol]
     end
 end
 
