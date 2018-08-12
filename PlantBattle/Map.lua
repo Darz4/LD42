@@ -16,7 +16,7 @@ Colors =
     brown = {r = 0.83, g = 0.61, b = 0.14},
 }
 
-graphDirs = { 'tiles', 'cloud', 'Plants' }
+graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots' }
 sprites = {}
 spriteGroups =
 {

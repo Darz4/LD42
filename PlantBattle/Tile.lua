@@ -26,7 +26,6 @@ function Tile:load()
     if self.isAnimated then
         local spriteNames = {}
         for spriteName, _ in pairs(sprites) do
-            print('checking ' .. spriteName .. ' / ' .. self.spriteNames[1])
             if startsWith(spriteName, self.spriteNames[1]) then
                 table.insert(spriteNames, spriteName)
             end
