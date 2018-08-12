@@ -15,7 +15,7 @@ function Layer:new(name, width, height)
     for i = 1, self.height do
         local row = {}
         for j = 1, self.width do
-            table.insert(row, Tile.default)
+            table.insert(row, Tile(nil, TileTypes.default, i, j))
         end
         table.insert(self.tiles, row)
     end
@@ -55,9 +55,20 @@ end
 
 function Layer:getTile(row, col)
     if row < 1 or row > self.height or col < 1 or col > self.width then
+        print('default')
         return Tile.default
     end
     return self.tiles[row][col]
+end
+
+function Layer:clear()
+    for i = 1, self.height do
+        for j = 1, self.width do
+            if self.tiles ~= Tile.default then
+                self.tiles[i][j].type = TileTypes.default
+            end
+        end
+    end
 end
 
 function Layer:getTileNeighbours(row, col)

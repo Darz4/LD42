@@ -16,9 +16,9 @@ TileTypes =
 Tile.size = 40
 
 
-function Tile:new(layer, type, row, col, spriteNames, isAnimated)
+function Tile:new(layer, tileType, row, col, spriteNames, isAnimated)
     self.layer = layer
-    self.type = type
+    self.type = tileType
     self.row = row
     self.col = col
     self.x = (col - 1) * Tile.size
@@ -27,13 +27,12 @@ function Tile:new(layer, type, row, col, spriteNames, isAnimated)
     self.isAnimated = isAnimated
     self.spriteNames = spriteNames
     self.currentFrame = 1
+    self.flags = { false, false, false, false }
 
     if layer then
         layer:setTile(row, col, self)
     end
-end
-
-function Tile:load()
+    
     if self.type == TileTypes.default then
         return
     end
@@ -58,6 +57,9 @@ function Tile:load()
     end
 end
 
+function Tile:load()
+end
+
 function Tile:update(dt)
     if self.isAnimated then
         self.currentFrame = self.currentFrame + 2 * dt
@@ -69,8 +71,6 @@ end
 
 function Tile:draw()
     if self.type == TileTypes.default then
-        love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle('fill', self.x - camera.x, self.y - camera.y, Tile.size, Tile.size)
         return
     end
 
@@ -80,5 +80,19 @@ function Tile:draw()
     end
 
     local spriteName = self.spriteNames[math.floor(self.currentFrame)]
-    love.graphics.draw(sprites[spriteName], self.x - camera.x, self.y - camera.y)
+
+    if sprites[spriteName] then
+        love.graphics.draw(sprites[spriteName], self.x - camera.x, self.y - camera.y)
+    end
+end
+
+function Tile:setFlag(index, value)
+    if self.type == TileTypes.root then
+        self.flags[index] = value
+        local flagsString = getFlagsString(self.flags)
+
+        if flagsString:len() > 0 then
+            self.spriteNames = { flagsSprites[flagsString] .. '.png' }
+        end
+    end
 end

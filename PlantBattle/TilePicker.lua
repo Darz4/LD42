@@ -3,9 +3,11 @@ TilePicker = GameObject:extend()
 
 function TilePicker:new()
     self.currentTile = nil
+    self.debugDraw = false
 end
 
 function TilePicker:load()
+    self.layer = map:addLayer('tilePicker')
     self.row = 1
     self.col = 1
     self.x = 0
@@ -28,4 +30,14 @@ end
 function TilePicker:draw()
     love.graphics.setColor(1, 1, 1, 0.3)
     love.graphics.rectangle("fill", self.x - camera.x, self.y - camera.y, Tile.size, Tile.size)
+
+    if self.debugDraw then
+        self.layer:clear()
+        local n = self.layer:getTileNeighbours(self.row, self.col)
+
+        for _, v in pairs(n) do
+            love.graphics.setColor(1, 0, 0, 0.5)
+            love.graphics.rectangle("fill", v.x - camera.x, v.y - camera.y, Tile.size, Tile.size)
+        end
+    end
 end

@@ -27,6 +27,7 @@ function love.load()
 
     map:load()
     camera:load()
+    picker:load()
 end
 
 function love.update(dt)
@@ -49,7 +50,34 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
+    local plantLayer = map.layers['plant']
+    local selectedTile = plantLayer:getTile(picker.row, picker.col)
 
+    if selectedTile.type == TileTypes.root then return end
+
+    local neighbours = plantLayer:getTileNeighbours(picker.row, picker.col)
+
+    flags = {}
+    local anyConnection = false
+    for i = 1, #neighbours do
+        flags[i] = neighbours[i].type == TileTypes.root
+        if flags[i] then anyConnection = true end
+    end
+
+    local flagsString = getFlagsString(flags)
+
+    if flagsSprites[flagsString] then
+        if flags[1] then neighbours[1]:setFlag(3, true) end
+        if flags[2] then neighbours[2]:setFlag(4, true) end
+        if flags[3] then neighbours[3]:setFlag(1, true) end
+        if flags[4] then neighbours[4]:setFlag(2, true) end
+        local newTile = Tile(plantLayer, TileTypes.root, picker.row, picker.col, flagsSprites[flagsString])
+        newTile:load()
+
+        for i = 1, #flags do
+            newTile:setFlag(i, flags[i])
+        end
+    end
 end
 
 
