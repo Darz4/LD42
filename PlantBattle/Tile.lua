@@ -13,11 +13,11 @@ TileTypes =
 }
 
 Tile.size = 40
-Tile.default = Tile(nil, TileTypes.default, 0, 0)
 
 
 function Tile:new(layer, type, row, col, spriteNames, isAnimated)
     self.layer = layer
+    self.type = type
     self.row = row
     self.col = col
     self.x = col * Tile.size
@@ -26,10 +26,13 @@ function Tile:new(layer, type, row, col, spriteNames, isAnimated)
     self.isAnimated = isAnimated
     self.spriteNames = spriteNames
     self.currentFrame = 1
-    self.type = type
 end
 
 function Tile:load()
+    if self.type == TileTypes.default then
+        return
+    end
+
     if type(self.spriteNames) == 'table' then
         self.spriteNames = { self.spriteNames[math.random(1, #self.spriteNames)] }
     else
@@ -63,6 +66,7 @@ function Tile:draw()
     if self.type == TileTypes.default then
         love.graphics.setColor(0, 0, 0)
         love.graphics.rectangle('fill', self.x - camera.x, self.y - camera.y, Tile.size, Tile.size)
+        return
     end
 
     love.graphics.setColor(1, 1, 1)

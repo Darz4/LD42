@@ -1,4 +1,8 @@
 require "GameObject"
+require "Tile"
+
+Tile.default = Tile({}, TileTypes.default, 0, 0)
+
 Layer = GameObject:extend()
 
 
@@ -7,6 +11,14 @@ function Layer:new(name, width, height)
     self.name = name
     self.width = width
     self.height = height
+
+    for i = 1, self.height do
+        local row = {}
+        for j = 1, self.width do
+            table.insert(row, Tile.default)
+        end
+        table.insert(self.tiles, row)
+    end
 end
 
 function Layer:load()
