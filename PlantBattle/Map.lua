@@ -43,8 +43,11 @@ function Map:load()
         local fileNames = love.filesystem.getDirectoryItems(fullGraphDir)
 
         for _, fileName in pairs(fileNames) do
-            print('loading ' .. fullGraphDir .. '/' .. fileName)
-            sprites[graphDir .. '/' .. fileName] = love.graphics.newImage(fullGraphDir .. '/' .. fileName)
+            local fileInfo = love.filesystem.getInfo(fullGraphDir .. '/' .. fileName)
+            if fileInfo.type == 'file' then
+                print('loading ' .. fullGraphDir .. '/' .. fileName)
+                sprites[graphDir .. '/' .. fileName] = love.graphics.newImage(fullGraphDir .. '/' .. fileName)
+            end
         end
     end
 
