@@ -6,22 +6,26 @@ function TilePicker:new()
 end
 
 function TilePicker:load()
+    self.row = 1
+    self.col = 1
+    self.x = 0
+    self.y = 0
 end
 
 function TilePicker:update(dt)
     local mouseX, mouseY = love.mouse.getPosition()
     local tileRow = math.floor((mouseY + camera.y) / Tile.size) + 1
     local tileCol = math.floor((mouseX + camera.x) / Tile.size) + 1
-    self.currentTile = nil
 
     if tileRow > 0 and tileRow <= map.height and tileCol > 0 and tileCol <= map.width then
-        self.currentTile = map.layers['background1'].tiles[tileRow][tileCol]
+        self.row = tileRow
+        self.col = tileCol
+        self.x = (self.col - 1) * Tile.size
+        self.y = (self.row - 1) * Tile.size
     end
 end
 
 function TilePicker:draw()
-    if self.currentTile then
-        love.graphics.setColor(1, 1, 1, 0.3)
-        love.graphics.rectangle("fill", self.currentTile.x - camera.x, self.currentTile.y - camera.y, Tile.size, Tile.size)
-    end
+    love.graphics.setColor(1, 1, 1, 0.3)
+    love.graphics.rectangle("fill", self.x - camera.x, self.y - camera.y, Tile.size, Tile.size)
 end
