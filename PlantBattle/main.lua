@@ -18,6 +18,7 @@ scrollSpeed = 300
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function love.load()
+    love.window.setTitle('Gangplant')
     math.randomseed(os.time())
     camera = Camera()
     map = Map()
@@ -47,7 +48,7 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-    
+
 end
 
 
