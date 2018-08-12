@@ -69,7 +69,7 @@ function Map:generateBackground()
         local row = {}
         for j = 0, self.width - 1 do
             local spriteNameSuffix = groundRow - i
-            if spriteNameSuffix > 6 then spriteNameSuffix = 6 end
+            if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
             table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_sky' .. spriteNameSuffix))
         end
         table.insert(layer.tiles, row)
