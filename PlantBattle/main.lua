@@ -19,6 +19,7 @@ scrollSpeed = 300
 
 function love.load()
     love.window.setTitle('Gangplant')
+    love.window.setMode(1280, 720)
     math.randomseed(os.time())
     camera = Camera()
     map = Map()

@@ -89,34 +89,31 @@ function Map:generateBackground()
     local layer = self:addLayer('background1')
 
     -- Sky
-    for i = 0, self.floorRow - 1 do
+    for i = 1, self.floorRow do
         local row = {}
-        for j = 0, self.width - 1 do
+        for j = 1, self.width do
             local spriteNameSuffix = self.floorRow - i
             if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
-            table.insert(row, Tile(layer, TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix))
+            Tile(layer, TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix)
         end
-        table.insert(layer.tiles, row)
     end
 
     -- Floor
     local row = {}
-    for j = 0, self.width - 1 do
+    for j = 1, self.width do
         if j % 2 == 0 then
-            table.insert(row, Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor1))
+            Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor1)
         else
-            table.insert(row, Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor2))
+            Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor2)
         end
     end
-    table.insert(layer.tiles, row)
 
     -- Ground
-    for i = self.floorRow + 1, self.height - 1 do
+    for i = self.floorRow + 1, self.height do
         local row = {}
-        for j = 0, self.width - 1 do
+        for j = 1, self.width do
             local spriteNameSuffix = (j % 2) + 1
-            table.insert(row, Tile(layer, TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix))
+            Tile(layer, TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
         end
-        table.insert(layer.tiles, row)
     end
 end

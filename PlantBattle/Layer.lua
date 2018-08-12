@@ -1,7 +1,7 @@
 require "GameObject"
 require "Tile"
 
-Tile.default = Tile({}, TileTypes.default, 0, 0)
+Tile.default = Tile(nil, TileTypes.default, 0, 0)
 
 Layer = GameObject:extend()
 
@@ -43,6 +43,14 @@ function Layer:draw()
             tile:draw()
         end
     end
+end
+
+function Layer:setTile(row, col, tile)
+    if row < 1 or row > self.height or col < 1 or col > self.width then
+        print('Layer ' .. self.name .. ' : row or col are out of bounds')
+        return
+    end
+    self.tiles[row][col] = tile
 end
 
 function Layer:getTile(row, col)

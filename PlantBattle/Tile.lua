@@ -1,4 +1,5 @@
 require "GameObject"
+
 Tile = GameObject:extend()
 
 TileTypes =
@@ -20,12 +21,16 @@ function Tile:new(layer, type, row, col, spriteNames, isAnimated)
     self.type = type
     self.row = row
     self.col = col
-    self.x = col * Tile.size
-    self.y = row * Tile.size
+    self.x = (col - 1) * Tile.size
+    self.y = (row - 1) * Tile.size
     self.pickingState = 0
     self.isAnimated = isAnimated
     self.spriteNames = spriteNames
     self.currentFrame = 1
+
+    if layer then
+        layer:setTile(row, col, self)
+    end
 end
 
 function Tile:load()
