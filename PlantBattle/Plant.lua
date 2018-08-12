@@ -27,7 +27,7 @@ flagsSprites = {}
 
 function Plant:new(row, col)
     self.layer = map:addLayer('plant')
-    self.rootTile =  PlantTile(Tile(self.layer, row, col, 'Plants/Plant_start_anim', true))
+    self.rootTile =  PlantTile(Tile(self.layer, TileTypes.plantBase, row, col, 'Plants/Plant_start_anim', true))
     self.tiles = { self.rootTile }
 end
 

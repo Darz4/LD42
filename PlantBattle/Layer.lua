@@ -5,6 +5,8 @@ Layer = GameObject:extend()
 function Layer:new(name, width, height)
     self.tiles = {}
     self.name = name
+    self.width = width
+    self.height = height
 end
 
 function Layer:load()
@@ -29,4 +31,21 @@ function Layer:draw()
             tile:draw()
         end
     end
+end
+
+function Layer:getTile(row, col)
+    if row < 1 or row > self.height or col < 1 or col > self.width then
+        return Tile.default
+    end
+    return self.tiles[row][col]
+end
+
+function Layer:getTileNeighbours(row, col)
+    return
+    {
+        self:getTile(row, col - 1),
+        self:getTile(row - 1, col),
+        self:getTile(row, col + 1),
+        self:getTile(row + 1, col),
+    }
 end

@@ -10,12 +10,6 @@ Map = GameObject:extend()
     Globals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
-Colors =
-{
-    blue  = {r = 0.40, g = 0.80, b = 1.00},
-    brown = {r = 0.83, g = 0.61, b = 0.14},
-}
-
 graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots' }
 sprites = {}
 spriteGroups =
@@ -37,7 +31,7 @@ function Map:new()
     self.height = 50
     self.width = 100
     self.layers = {}
-    self.groundRow = math.floor(self.height / 2)
+    self.floorRow = math.floor(self.height / 2)
 end
 
 function Map:load()
@@ -86,7 +80,7 @@ function Map:addLayer(layerName)
 end
 
 function Map:generatePlant()
-    local row = self.groundRow
+    local row = self.floorRow
     local col = self.width / 2
     plant = Plant(row, col)
 end
@@ -95,12 +89,12 @@ function Map:generateBackground()
     local layer = self:addLayer('background1')
 
     -- Sky
-    for i = 0, self.groundRow - 1 do
+    for i = 0, self.floorRow - 1 do
         local row = {}
         for j = 0, self.width - 1 do
-            local spriteNameSuffix = self.groundRow - i
+            local spriteNameSuffix = self.floorRow - i
             if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
-            table.insert(row, Tile(layer, i, j, 'tiles/Tile_sky' .. spriteNameSuffix))
+            table.insert(row, Tile(layer, TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix))
         end
         table.insert(layer.tiles, row)
     end
@@ -109,19 +103,19 @@ function Map:generateBackground()
     local row = {}
     for j = 0, self.width - 1 do
         if j % 2 == 0 then
-            table.insert(row, Tile(layer, self.groundRow, j, spriteGroups.floor1))
+            table.insert(row, Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor1))
         else
-            table.insert(row, Tile(layer, self.groundRow, j, spriteGroups.floor2))
+            table.insert(row, Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor2))
         end
     end
     table.insert(layer.tiles, row)
 
     -- Ground
-    for i = self.groundRow + 1, self.height - 1 do
+    for i = self.floorRow + 1, self.height - 1 do
         local row = {}
         for j = 0, self.width - 1 do
             local spriteNameSuffix = (j % 2) + 1
-            table.insert(row, Tile(layer, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix))
+            table.insert(row, Tile(layer, TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix))
         end
         table.insert(layer.tiles, row)
     end

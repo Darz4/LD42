@@ -1,19 +1,32 @@
 require "GameObject"
 Tile = GameObject:extend()
 
-Tile.size = 40
+TileTypes =
+{
+    default = 0,
+    sky = 1,
+    floor = 2,
+    ground = 3,
+    plant = 4,
+    plantBase = 5,
+    root = 6,
+}
 
-function Tile:new(layer, row, col, spriteNames, isAnimated, color)
+Tile.size = 40
+Tile.default = Tile(nil, TileTypes.default, 0, 0)
+
+
+function Tile:new(layer, type, row, col, spriteNames, isAnimated)
     self.layer = layer
     self.row = row
     self.col = col
     self.x = col * Tile.size
     self.y = row * Tile.size
-    self.color = color
     self.pickingState = 0
     self.isAnimated = isAnimated
     self.spriteNames = spriteNames
     self.currentFrame = 1
+    self.type = type
 end
 
 function Tile:load()
@@ -47,8 +60,8 @@ function Tile:update(dt)
 end
 
 function Tile:draw()
-    if self.color then
-        love.graphics.setColor(self.color.r, self.color.g, self.color.b)
+    if self.type == TileTypes.default then
+        love.graphics.setColor(0, 0, 0)
         love.graphics.rectangle('fill', self.x - camera.x, self.y - camera.y, Tile.size, Tile.size)
     end
 
