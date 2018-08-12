@@ -5,6 +5,9 @@ function TilePicker:new()
     self.currentTile = nil
 end
 
+function TilePicker:load()
+end
+
 function TilePicker:update(dt)
     local mouseX, mouseY = love.mouse.getPosition()
     local tileRow = math.floor((mouseY + camera.y) / Tile.size) + 1
@@ -12,7 +15,7 @@ function TilePicker:update(dt)
     self.currentTile = nil
 
     if tileRow > 0 and tileRow <= map.height and tileCol > 0 and tileCol <= map.width then
-        self.currentTile = map.tiles[tileRow][tileCol]
+        self.currentTile = map.layers[1].tiles[tileRow][tileCol]
     end
 end
 

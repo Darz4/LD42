@@ -6,6 +6,9 @@ GameObject = Object:extend()
 function GameObject:new()
 end
 
+function GameObject:load()
+end
+
 function GameObject:update(dt)
 end
 

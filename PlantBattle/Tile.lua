@@ -19,6 +19,9 @@ function Tile:new(x, y, spriteName, color)
     end
 end
 
+function Tile:load()
+end
+
 function Tile:update(dt)
 end
 

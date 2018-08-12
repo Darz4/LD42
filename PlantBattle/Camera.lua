@@ -6,6 +6,11 @@ function Camera:new()
     self.y = 0
 end
 
+function Camera:load()
+    self.x = (map.width * Tile.size / 2) - (love.graphics.getWidth() / 2)
+    self.y = (map.height * Tile.size / 2) - (love.graphics.getHeight() / 2)
+end
+
 function Camera:update(dt)
     if love.keyboard.isDown("up") then
         self.y = self.y - scrollSpeed * dt
