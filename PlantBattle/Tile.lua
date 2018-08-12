@@ -33,8 +33,8 @@ function Tile:draw()
 
     if self.spriteFileName then
         love.graphics.setColor(1, 1, 1)
-        if startsWith(self.spriteFileName, 'Tile_herb') then
-            love.graphics.draw(sprites['Tile_sky0.png'], self.x - camera.x, self.y - camera.y) -- ugly, just for floor tiles background
+        if startsWith(self.spriteFileName, 'tiles/Tile_herb') then
+            love.graphics.draw(sprites['tiles/Tile_sky0.png'], self.x - camera.x, self.y - camera.y) -- ugly, just for floor tiles background
         end
         love.graphics.draw(sprites[self.spriteFileName], self.x - camera.x, self.y - camera.y)
     end

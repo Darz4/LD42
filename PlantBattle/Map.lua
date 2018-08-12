@@ -15,12 +15,12 @@ Colors =
     brown = {r = 0.83, g = 0.61, b = 0.14},
 }
 
+graphDirs = { 'tiles', 'cloud', 'plants' }
 sprites = {}
-spritesDir = 'graphics/tiles'
 spriteGroups =
 {
-    floor1 = { 'Tile_herbground_1', 'Tile_herbground_3' },
-    floor2 = { 'Tile_herbground_2', 'Tile_herbground_4' },
+    floor1 = { 'tiles/Tile_herbground_1', 'tiles/Tile_herbground_3' },
+    floor2 = { 'tiles/Tile_herbground_2', 'tiles/Tile_herbground_4' },
 }
 
 
@@ -38,11 +38,14 @@ function Map:new()
 end
 
 function Map:load()
-    local fileNames = love.filesystem.getDirectoryItems(spritesDir)
+    for _, graphDir in pairs(graphDirs) do
+        local fullGraphDir = 'graphics/' .. graphDir
+        local fileNames = love.filesystem.getDirectoryItems(fullGraphDir)
 
-    for _, fileName in pairs(fileNames) do
-        print('loading ' .. fileName)
-        sprites[fileName] = love.graphics.newImage(spritesDir .. '/' .. fileName)
+        for _, fileName in pairs(fileNames) do
+            print('loading ' .. fullGraphDir .. '/' .. fileName)
+            sprites[graphDir .. '/' .. fileName] = love.graphics.newImage(fullGraphDir .. '/' .. fileName)
+        end
     end
 
     self:generateBackground()
@@ -70,7 +73,7 @@ function Map:generateBackground()
         for j = 0, self.width - 1 do
             local spriteNameSuffix = groundRow - i
             if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_sky' .. spriteNameSuffix))
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'tiles/Tile_sky' .. spriteNameSuffix))
         end
         table.insert(layer.tiles, row)
     end
@@ -91,7 +94,7 @@ function Map:generateBackground()
         local row = {}
         for j = 0, self.width - 1 do
             local spriteNameSuffix = (j % 2) + 1
-            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'Tile_ground_' .. spriteNameSuffix))
+            table.insert(row, Tile(j * Tile.size, i * Tile.size, 'tiles/Tile_ground_' .. spriteNameSuffix))
         end
         table.insert(layer.tiles, row)
     end
