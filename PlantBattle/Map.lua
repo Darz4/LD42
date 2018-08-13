@@ -6,13 +6,12 @@ require "Globals"
 
 Map = GameObject:extend()
 
+graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots', 'UI/Buttons', 'UI/Names' }
+
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Methods
+    Constructor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
-
-
-graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots', 'UI/Buttons', 'UI/Names' }
 
 
 function Map:new()
@@ -23,6 +22,11 @@ function Map:new()
     self.layers = {}
     self.floorRow = math.floor(self.height / 2)
 end
+
+
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Events
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function Map:load()
     for _, graphDir in pairs(graphDirs) do
@@ -38,7 +42,11 @@ function Map:load()
         end
     end
 
-    self:generateBackground()
+    self:addLayer('background1')
+    self:addLayer('plant')
+    self:addLayer('roots')
+
+    self:generateBackgroundLayer()
     plant = Plant(self.floorRow, self.width / 2)
 
     for _,layer in pairs(self.layers) do
@@ -64,21 +72,19 @@ function Map:draw()
     plant:draw()
 end
 
-function Map:addLayer(layerName)
-    self.layers[layerName] = Layer(layerName, self.width, self.height)
-    return self.layers[layerName]
-end
 
-function Map:generateBackground()
-    local layer = self:addLayer('background1')
+--[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Methods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
+function Map:generateBackgroundLayer()
     -- Sky
     for i = 1, self.floorRow do
         local row = {}
         for j = 1, self.width do
             local spriteNameSuffix = self.floorRow - i
             if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
-            Tile(layer, TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix)
+            Tile(self.layers['background1'], TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix)
         end
     end
 
@@ -86,9 +92,9 @@ function Map:generateBackground()
     local row = {}
     for j = 1, self.width do
         if j % 2 == 0 then
-            Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor1)
+            Tile(self.layers['background1'], TileTypes.floor, self.floorRow, j, spriteGroups.floor1)
         else
-            Tile(layer, TileTypes.floor, self.floorRow, j, spriteGroups.floor2)
+            Tile(self.layers['background1'], TileTypes.floor, self.floorRow, j, spriteGroups.floor2)
         end
     end
 
@@ -97,7 +103,28 @@ function Map:generateBackground()
         local row = {}
         for j = 1, self.width do
             local spriteNameSuffix = (j % 2) + 1
-            Tile(layer, TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
+            Tile(self.layers['background1'], TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
         end
     end
+end
+
+function Map:addLayer(layerName)
+    self.layers[layerName] = Layer(layerName, self.width, self.height)
+    return self.layers[layerName]
+end
+
+function Map:getTile(row, col)
+    local result = {}
+    for k, v in pairs(self.layers) do
+        result[k] = v:getTile(row, col)
+    end
+    return result
+end
+
+function Map:getTileNeighbours(row, col)
+    local result = {}
+    for k, v in pairs(self.layers) do
+        result[k] = v:getTileNeighbours(row, col)
+    end
+    return result
 end

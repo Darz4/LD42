@@ -30,12 +30,20 @@ function generateFlagsDict(spriteFlags)
 end
 
 function getFlagsKey(flags)
-    local result = ''
+    local flagsKey = ''
     local chars = { 'L', 'U', 'R', 'D' }
     for i = 1, #flags do
         if flags[i] then
-            result = result .. chars[i]
+            flagsKey = flagsKey .. chars[i]
         end
     end
-    return result
+    return flagsKey
+end
+
+function getFlags(arr, func)
+    flags = {}
+    for i = 1, #arr do
+        flags[i] = func(arr[i])
+    end
+    return flags
 end

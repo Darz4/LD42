@@ -112,14 +112,14 @@ function Tile:setFlag(index, value)
         local flagsKey = getFlagsKey(self.flags)
 
         if self == plant.baseRoot then
-            local seedSpritesTab = seedSprites[flagsKey]
-            if seedSpritesTab and #seedSpritesTab > 0 then
-                self.spriteNames = { seedSpritesTab[math.random(1, #seedSpritesTab)] .. '.png' }
+            local seedSprites = flagsSprites.seed[flagsKey]
+            if seedSprites and #seedSprites > 0 then
+                self.spriteNames = { seedSprites[math.random(1, #seedSprites)] .. '.png' }
             end
         elseif self.type == TileTypes.root then
-            local rootSpritesTab = rootSprites[flagsKey]
-            if rootSpritesTab and #rootSpritesTab > 0 then
-                self.spriteNames = { rootSpritesTab[math.random(1, #rootSpritesTab)] .. '.png' }
+            local rootSprites = flagsSprites.roots[flagsKey]
+            if rootSprites and #rootSprites > 0 then
+                self.spriteNames = { rootSprites[math.random(1, #rootSprites)] .. '.png' }
             end
         end
     end

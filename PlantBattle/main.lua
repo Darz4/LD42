@@ -26,8 +26,8 @@ function love.load()
     map = Map()
     picker = TilePicker()
 
-    rootSprites = generateFlagsDict(rootFlags)
-    seedSprites = generateFlagsDict(seedFlags)
+    flagsSprites.roots = generateFlagsDict(spriteFlags.roots)
+    flagsSprites.seed = generateFlagsDict(spriteFlags.seed)
 
     map:load()
     camera:load()
@@ -54,28 +54,21 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-    local selectedRoot = map.layers['roots']:getTile(picker.row, picker.col)
-    local selectedGround = map.layers['background1']:getTile(picker.row, picker.col)
+    local tile = map:getTile(picker.row, picker.col)
+    local nexts = map:getTileNeighbours(picker.row, picker.col)
 
-    if selectedGround.type == TileTypes.ground or selectedGround.type == TileTypes.floor then
-        if selectedRoot.type == TileTypes.root then return end
+    if tile['background1'].type == TileTypes.ground or tile['background1'].type == TileTypes.floor then
+        if tile['roots'].type == TileTypes.root then return end
 
-        local nextRoots = map.layers['roots']:getTileNeighbours(picker.row, picker.col)
-
-        flags = {}
-        for i = 1, #nextRoots do
-            flags[i] = nextRoots[i].type == TileTypes.root
-        end
-
+        local flags = getFlags(nexts['roots'], function(x) return (x.type == TileTypes.root) end)
         local flagsKey = getFlagsKey(flags)
 
-        if rootSprites[flagsKey] then
-            if flags[1] then nextRoots[1]:setFlag(3, true) end
-            if flags[2] then nextRoots[2]:setFlag(4, true) end
-            if flags[3] then nextRoots[3]:setFlag(1, true) end
-            if flags[4] then nextRoots[4]:setFlag(2, true) end
-            local newTile = Tile(map.layers['roots'], TileTypes.root, picker.row, picker.col, rootSprites[flagsKey])
-            newTile:load()
+        if flagsSprites.roots[flagsKey] then
+            if flags[1] then nexts['roots'][1]:setFlag(3, true) end
+            if flags[2] then nexts['roots'][2]:setFlag(4, true) end
+            if flags[3] then nexts['roots'][3]:setFlag(1, true) end
+            if flags[4] then nexts['roots'][4]:setFlag(2, true) end
+            local newTile = Tile(map.layers['roots'], TileTypes.root, picker.row, picker.col, flagsSprites.roots[flagsKey])
 
             for i = 1, #flags do
                 newTile:setFlag(i, flags[i])
