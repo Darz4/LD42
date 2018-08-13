@@ -6,8 +6,6 @@ Plant = GameObject:extend()
 function Plant:new(row, col)
     self.row = row
     self.col = col
-    map:addLayer('plant')
-    map:addLayer('roots')
     self.basePlant = Tile(map.layers['plant'], TileTypes.seed, row, col, 'Plants/Plant_start_anim', true)
     self.baseRoot = Tile(map.layers['roots'], TileTypes.root, row, col, 'Plants/Roots/Root_base_D')
 end

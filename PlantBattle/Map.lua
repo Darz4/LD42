@@ -6,21 +6,22 @@ require "Globals"
 
 Map = GameObject:extend()
 
-graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots', 'UI/Buttons', 'UI/Names' }
-
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Constructor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 
-function Map:new()
-    self.x = 0
-    self.y = 0
-    self.height = 50
-    self.width = 100
+function Map:new(width, height)
+    self.width = width
+    self.height = height
     self.layers = {}
     self.floorRow = math.floor(self.height / 2)
+
+    self:addLayer('background1', true)
+    -- FIXME self:addLayer('background2')
+    self:addLayer('plant', true)
+    self:addLayer('roots', true)
 end
 
 
@@ -29,24 +30,9 @@ end
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function Map:load()
-    for _, graphDir in pairs(graphDirs) do
-        local fullGraphDir = 'graphics/' .. graphDir
-        local fileNames = love.filesystem.getDirectoryItems(fullGraphDir)
-
-        for _, fileName in pairs(fileNames) do
-            local fileInfo = love.filesystem.getInfo(fullGraphDir .. '/' .. fileName)
-            if fileInfo.type == 'file' then
-                print('loading ' .. fullGraphDir .. '/' .. fileName)
-                sprites[graphDir .. '/' .. fileName] = love.graphics.newImage(fullGraphDir .. '/' .. fileName)
-            end
-        end
-    end
-
-    self:addLayer('background1')
-    self:addLayer('plant')
-    self:addLayer('roots')
-
+    self:loadSprites()
     self:generateBackgroundLayer()
+    
     plant = Plant(self.floorRow, self.width / 2)
 
     for _,layer in pairs(self.layers) do
@@ -76,6 +62,21 @@ end
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Methods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
+
+function Map:loadSprites()
+    for _, graphDir in pairs(graphDirs) do
+        local fullGraphDir = 'graphics/' .. graphDir
+        local fileNames = love.filesystem.getDirectoryItems(fullGraphDir)
+
+        for _, fileName in pairs(fileNames) do
+            local fileInfo = love.filesystem.getInfo(fullGraphDir .. '/' .. fileName)
+            if fileInfo.type == 'file' then
+                print('loading ' .. fullGraphDir .. '/' .. fileName)
+                sprites[graphDir .. '/' .. fileName] = love.graphics.newImage(fullGraphDir .. '/' .. fileName)
+            end
+        end
+    end
+end
 
 function Map:generateBackgroundLayer()
     -- Sky
@@ -108,15 +109,18 @@ function Map:generateBackgroundLayer()
     end
 end
 
-function Map:addLayer(layerName)
-    self.layers[layerName] = Layer(layerName, self.width, self.height)
+function Map:addLayer(layerName, isTiled)
+    if not isTiled then isTiled = false end
+    self.layers[layerName] = Layer(layerName, isTiled, self.width, self.height)
     return self.layers[layerName]
 end
 
 function Map:getTile(row, col)
     local result = {}
     for k, v in pairs(self.layers) do
-        result[k] = v:getTile(row, col)
+        if v.isTiled then
+            result[k] = v:getTile(row, col)
+        end
     end
     return result
 end
@@ -124,7 +128,9 @@ end
 function Map:getTileNeighbours(row, col)
     local result = {}
     for k, v in pairs(self.layers) do
-        result[k] = v:getTileNeighbours(row, col)
+        if v.isTiled then
+            result[k] = v:getTileNeighbours(row, col)
+        end
     end
     return result
 end

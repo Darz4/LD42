@@ -7,7 +7,7 @@ function TilePicker:new()
 end
 
 function TilePicker:load()
-    self.layer = map:addLayer('tilePicker')
+    self.layer = map:addLayer('tilePicker', true)
     self.row = 1
     self.col = 1
     self.x = 0

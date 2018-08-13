@@ -1,4 +1,5 @@
 
+require "Utils"
 require "Map"
 require "Camera"
 require "TilePicker"
@@ -12,6 +13,7 @@ camera = nil
 picker = nil
 plant = nil
 
+
 scrollSpeed = 300
 
 --[[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,14 +25,14 @@ function love.load()
     love.window.setMode(1280, 720)
     math.randomseed(os.time())
     camera = Camera()
-    map = Map()
+    map = Map(50, 30)
     picker = TilePicker()
 
     flagsSprites.roots = generateFlagsDict(spriteFlags.roots)
     flagsSprites.seed = generateFlagsDict(spriteFlags.seed)
 
-    map:load()
     camera:load()
+    map:load()
     picker:load()
 end
 
@@ -41,6 +43,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    camera:draw()
     map:draw()
     picker:draw()
 end

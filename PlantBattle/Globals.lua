@@ -4,6 +4,7 @@
     Globals
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
+graphDirs = { 'tiles', 'cloud', 'Plants', 'Plants/Roots', 'UI/Buttons', 'UI/Names' }
 sprites = {}
 spriteGroups =
 {
