@@ -13,12 +13,12 @@ Layer = GameObject:extend()
 function Layer:new(name, isTiled, width, height)
     self.name = name
     self.isTiled = isTiled
+    self.width = width
+    self.height = height
     self.entities = {}
     self.tiles = {}
 
     if self.isTiled then
-        self.width = width
-        self.height = height
         for i = 1, self.height do
             local row = {}
             for j = 1, self.width do

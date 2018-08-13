@@ -19,7 +19,7 @@ function Map:new(width, height)
     self.floorRow = math.floor(self.height / 2)
 
     self:addLayer('background1', true)
-    -- FIXME self:addLayer('background2')
+    --self:addLayer('background2')
     self:addLayer('plant', true)
     self:addLayer('roots', true)
 end

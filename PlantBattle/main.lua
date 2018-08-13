@@ -24,6 +24,7 @@ function love.load()
     love.window.setTitle('Gangplant')
     love.window.setMode(1280, 720)
     math.randomseed(os.time())
+
     camera = Camera()
     map = Map(50, 30)
     picker = TilePicker()
@@ -62,8 +63,9 @@ function love.mousereleased(x, y, button, istouch, presses)
 
     if tile['background1'].type == TileTypes.ground or tile['background1'].type == TileTypes.floor then
         if tile['roots'].type == TileTypes.root then return end
-
-        local flags = getFlags(nexts['roots'], function(x) return (x.type == TileTypes.root) end)
+        
+        local flagSetter = function(x) return (x.type == TileTypes.root or x.type == TileTypes.seed) end
+        local flags = getFlags(nexts['roots'], flagSetter)
         local flagsKey = getFlagsKey(flags)
 
         if flagsSprites.roots[flagsKey] then
@@ -72,10 +74,7 @@ function love.mousereleased(x, y, button, istouch, presses)
             if flags[3] then nexts['roots'][3]:setFlag(1, true) end
             if flags[4] then nexts['roots'][4]:setFlag(2, true) end
             local newTile = Tile(map.layers['roots'], TileTypes.root, picker.row, picker.col, flagsSprites.roots[flagsKey])
-
-            for i = 1, #flags do
-                newTile:setFlag(i, flags[i])
-            end
+            newTile:setFlags(flags)
         end
     end
 end

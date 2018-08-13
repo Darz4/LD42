@@ -95,9 +95,10 @@ function Tile:draw()
     end
 
     local spriteName = self.spriteNames[math.floor(self.currentFrame)]
+    local sprite = sprites[spriteName]
 
-    if sprites[spriteName] then
-        love.graphics.draw(sprites[spriteName], self.x - camera.x, self.y - camera.y)
+    if sprite then
+        love.graphics.draw(sprite, self.x - camera.x, self.y - camera.y)
     end
 end
 
@@ -107,20 +108,27 @@ end
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function Tile:setFlag(index, value)
-    if self.type == TileTypes.root then
-        self.flags[index] = value
-        local flagsKey = getFlagsKey(self.flags)
+    self.flags[index] = value
+    self:updateSpriteFromFlags()
+end
 
-        if self == plant.baseRoot then
-            local seedSprites = flagsSprites.seed[flagsKey]
-            if seedSprites and #seedSprites > 0 then
-                self.spriteNames = { seedSprites[math.random(1, #seedSprites)] .. '.png' }
-            end
-        elseif self.type == TileTypes.root then
-            local rootSprites = flagsSprites.roots[flagsKey]
-            if rootSprites and #rootSprites > 0 then
-                self.spriteNames = { rootSprites[math.random(1, #rootSprites)] .. '.png' }
-            end
+function Tile:setFlags(flags)
+    self.flags = flags
+    self:updateSpriteFromFlags()
+end
+
+function Tile:updateSpriteFromFlags()
+    local flagsKey = getFlagsKey(self.flags)
+
+    if self.type == TileTypes.seed then
+        local seedSprites = flagsSprites.seed[flagsKey]
+        if seedSprites and #seedSprites > 0 then
+            self.spriteNames = { seedSprites[math.random(1, #seedSprites)] .. '.png' }
+        end
+    elseif self.type == TileTypes.root then
+        local rootSprites = flagsSprites.roots[flagsKey]
+        if rootSprites and #rootSprites > 0 then
+            self.spriteNames = { rootSprites[math.random(1, #rootSprites)] .. '.png' }
         end
     end
 end
