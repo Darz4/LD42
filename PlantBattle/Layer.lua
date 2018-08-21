@@ -107,9 +107,7 @@ function Layer:clear()
     if self.isTiled then
         for i = 1, self.height do
             for j = 1, self.width do
-                if self.tiles[i][j].type ~= TileTypes.default then
-                    self.tiles[i][j].type = TileTypes.default
-                end
+                self.tiles[i][j].type = TileTypes.default
             end
         end
     end

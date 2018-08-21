@@ -40,10 +40,13 @@ function getFlagsKey(flags)
     return flagsKey
 end
 
-function getFlags(arr, func)
+function getFlags(tiles, tileTypes)
     flags = {}
-    for i = 1, #arr do
-        flags[i] = func(arr[i])
+    for i = 1, #tiles do
+        for _,v in pairs(tileTypes) do
+            flags[i] = (tiles[i].type == v)
+            if flags[i] then break end
+        end
     end
     return flags
 end

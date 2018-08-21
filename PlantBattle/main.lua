@@ -64,8 +64,7 @@ function love.mousereleased(x, y, button, istouch, presses)
     if tile['background1'].type == TileTypes.ground or tile['background1'].type == TileTypes.floor then
         if tile['roots'].type == TileTypes.root then return end
         
-        local flagSetter = function(x) return (x.type == TileTypes.root or x.type == TileTypes.seed) end
-        local flags = getFlags(nexts['roots'], flagSetter)
+        local flags = getFlags(nexts['roots'], { TileTypes.root, TileTypes.seed })
         local flagsKey = getFlagsKey(flags)
 
         if flagsSprites.roots[flagsKey] then
