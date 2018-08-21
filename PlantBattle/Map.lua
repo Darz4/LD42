@@ -35,7 +35,7 @@ function Map:load()
     
     plant = Plant(self.floorRow, self.width / 2)
 
-    for _,layer in pairs(self.layers) do
+    for _,layer in ipairs(self.layers) do
         layer:load()
     end
 
@@ -43,7 +43,7 @@ function Map:load()
 end
 
 function Map:update(dt)
-    for _,layer in pairs(self.layers) do
+    for _,layer in ipairs(self.layers) do
         layer:update(dt)
     end
 
@@ -51,7 +51,7 @@ function Map:update(dt)
 end
 
 function Map:draw()
-    for i, layer in ipairs(self.layers) do
+    for _,layer in ipairs(self.layers) do
         layer:draw()
     end
 
