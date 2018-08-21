@@ -19,7 +19,7 @@ function Map:new(width, height)
     self.floorRow = math.floor(self.height / 2)
 
     self:addLayer('background1', true)
-    --self:addLayer('background2')
+    self:addLayer('background2')
     self:addLayer('plant', true)
     self:addLayer('roots', true)
 end
@@ -51,7 +51,7 @@ function Map:update(dt)
 end
 
 function Map:draw()
-    for _,layer in pairs(self.layers) do
+    for i, layer in ipairs(self.layers) do
         layer:draw()
     end
 
@@ -111,7 +111,9 @@ end
 
 function Map:addLayer(layerName, isTiled)
     if not isTiled then isTiled = false end
-    self.layers[layerName] = Layer(layerName, isTiled, self.width, self.height)
+    local newLayer = Layer(layerName, isTiled, self.width, self.height)
+    table.insert(self.layers, newLayer)
+    self.layers[layerName] = newLayer
     return self.layers[layerName]
 end
 
