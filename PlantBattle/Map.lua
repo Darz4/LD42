@@ -16,6 +16,8 @@ Map = GameObject:extend()
 function Map:new(width, height)
     self.width = width
     self.height = height
+    self.actualWidth = self.width * Tile.size
+    self.actualHeight = self.height * Tile.size
     self.layers = {}
     self.floorRow = math.floor(self.height / 2)
 
@@ -32,7 +34,7 @@ end
 
 function Map:load()
     self:loadSprites()
-    self:generateBackgroundLayers()
+    self:generate()
     
     plant = Plant(self.floorRow, self.width / 2)
 
@@ -44,6 +46,15 @@ function Map:load()
 end
 
 function Map:update(dt)
+    local clouds = self.layers['sky'].entities
+
+    for i = #clouds, 1, -1 do
+        if clouds[i].actualRight < 0 then
+            table.remove(clouds, i)
+            self:generateCloud()
+        end
+    end
+
     for _,layer in ipairs(self.layers) do
         layer:update(dt)
     end
@@ -79,7 +90,7 @@ function Map:loadSprites()
     end
 end
 
-function Map:generateBackgroundLayers()
+function Map:generate()
     -- Sky
     for i = 1, self.floorRow do
         local row = {}
@@ -90,13 +101,8 @@ function Map:generateBackgroundLayers()
         end
     end
 
-    -- Clouds
-    local skyWpx = self.width * Tile.size
-    local skyHpx = self.floorRow * Tile.size
-
-    for i = 1, 10 do
-        local newCloud = Cloud(math.random(0, skyWpx), math.random(0, skyHpx))
-        self.layers['sky']:addEntity(newCloud)
+    for i = 1, 12 do
+        self:generateCloud(true)
     end
 
     -- Floor
@@ -117,6 +123,14 @@ function Map:generateBackgroundLayers()
             Tile(self.layers['ground'], TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
         end
     end
+end
+
+function Map:generateCloud(randomX)
+    local minX = 0
+    if not randomX then minX = self.actualWidth end
+    local x = math.random(minX, self.actualWidth)
+    local y = math.random(0, (self.floorRow - 2) * Tile.size)
+    self.layers['sky']:addEntity(Cloud(x, y))
 end
 
 function Map:addLayer(layerName, isTiled)

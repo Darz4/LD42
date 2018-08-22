@@ -74,6 +74,7 @@ end
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]]
 
 function Layer:addEntity(entity)
+    entity:load()
     table.insert(self.entities, entity)
 end
 
