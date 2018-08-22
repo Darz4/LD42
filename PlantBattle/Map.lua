@@ -18,8 +18,8 @@ function Map:new(width, height)
     self.layers = {}
     self.floorRow = math.floor(self.height / 2)
 
-    self:addLayer('background1', true)
-    self:addLayer('background2')
+    self:addLayer('sky', true)
+    self:addLayer('ground', true)
     self:addLayer('plant', true)
     self:addLayer('roots', true)
 end
@@ -31,7 +31,7 @@ end
 
 function Map:load()
     self:loadSprites()
-    self:generateBackgroundLayer()
+    self:generateBackgroundLayers()
     
     plant = Plant(self.floorRow, self.width / 2)
 
@@ -78,24 +78,32 @@ function Map:loadSprites()
     end
 end
 
-function Map:generateBackgroundLayer()
+function Map:generateBackgroundLayers()
     -- Sky
     for i = 1, self.floorRow do
         local row = {}
         for j = 1, self.width do
             local spriteNameSuffix = self.floorRow - i
             if spriteNameSuffix > 11 then spriteNameSuffix = 11 end
-            Tile(self.layers['background1'], TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix)
+            Tile(self.layers['sky'], TileTypes.sky, i, j, 'tiles/Tile_sky' .. spriteNameSuffix)
         end
+    end
+
+    -- Clouds
+    local skyWpx = self.width * Tile.size
+    local skyHpx = self.floorRow * Tile.size
+
+    for i = 1, 10 do
+        -- generate clouds
     end
 
     -- Floor
     local row = {}
     for j = 1, self.width do
         if j % 2 == 0 then
-            Tile(self.layers['background1'], TileTypes.floor, self.floorRow, j, spriteGroups.floor1)
+            Tile(self.layers['ground'], TileTypes.floor, self.floorRow, j, spriteGroups.floor1)
         else
-            Tile(self.layers['background1'], TileTypes.floor, self.floorRow, j, spriteGroups.floor2)
+            Tile(self.layers['ground'], TileTypes.floor, self.floorRow, j, spriteGroups.floor2)
         end
     end
 
@@ -104,7 +112,7 @@ function Map:generateBackgroundLayer()
         local row = {}
         for j = 1, self.width do
             local spriteNameSuffix = (j % 2) + 1
-            Tile(self.layers['background1'], TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
+            Tile(self.layers['ground'], TileTypes.ground, i, j, 'tiles/Tile_ground_' .. spriteNameSuffix)
         end
     end
 end

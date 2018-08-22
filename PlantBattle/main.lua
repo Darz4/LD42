@@ -61,7 +61,7 @@ function love.mousereleased(x, y, button, istouch, presses)
     local tile = map:getTile(picker.row, picker.col)
     local nexts = map:getTileNeighbours(picker.row, picker.col)
 
-    if tile['background1'].type == TileTypes.ground or tile['background1'].type == TileTypes.floor then
+    if tile['ground'].type == TileTypes.ground or tile['ground'].type == TileTypes.floor then
         if tile['roots'].type == TileTypes.root then return end
         
         local flags = getFlags(nexts['roots'], { TileTypes.root, TileTypes.seed })

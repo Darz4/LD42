@@ -90,9 +90,6 @@ function Tile:draw()
     end
 
     love.graphics.setColor(1, 1, 1)
-    if startsWith(self.spriteNames[1], 'tiles/Tile_herb') then
-        love.graphics.draw(sprites['tiles/Tile_sky0.png'], self.x - camera.x, self.y - camera.y) -- ugly, just for floor tiles background
-    end
 
     local spriteName = self.spriteNames[math.floor(self.currentFrame)]
     local sprite = sprites[spriteName]
