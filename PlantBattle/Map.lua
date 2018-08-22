@@ -2,6 +2,7 @@ require "GameObject"
 require "Tile"
 require "Layer"
 require "Plant"
+require "Cloud"
 require "Globals"
 
 Map = GameObject:extend()
@@ -94,7 +95,8 @@ function Map:generateBackgroundLayers()
     local skyHpx = self.floorRow * Tile.size
 
     for i = 1, 10 do
-        -- generate clouds
+        local newCloud = Cloud(math.random(0, skyWpx), math.random(0, skyHpx))
+        self.layers['sky']:addEntity(newCloud)
     end
 
     -- Floor
